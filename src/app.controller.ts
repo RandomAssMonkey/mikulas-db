@@ -33,13 +33,19 @@ export class AppController {
    return adatok[0];
   }
 
+@Get('/ujGYerek')
+@Render('ujgyerek')
+ujGyerekForm(){
+  //...
+}
+
   @Post('/ujGyerek')
   async ujGyerek(@Body() ujgyerek: UjgyerekDto){
     const nev = ujgyerek.nev;
-    const jo = ujgyerek.jo;
+    const jo: boolean = ujgyerek.jo == '1';
     const ajandek = jo ? ujgyerek.ajandek : null;
     const [adatok] = await conn.execute("INSERT INTO gyerekek (nev, jo, ajandek) VALUES (?, ?, ?)", 
-    [nev, jo, ajandek]
-      );
+    [nev, jo, ajandek]);
+    return {};
   }
 }
